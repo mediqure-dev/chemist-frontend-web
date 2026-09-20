@@ -1,30 +1,42 @@
 import { useEffect, useState } from "react";
 import { apiRequest } from "../../lib/api.js";
 import { Banner, Button, Card, Field, Input, PageHeader, Spinner } from "../../components/ui/index.jsx";
+import LocationPicker from "../../components/LocationPicker.jsx";
+
+const emptyAddress = { street: "", city: "", state: "", pincode: "" };
 
 export default function Profile() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [banner, setBanner] = useState(null);
   const [saving, setSaving] = useState(false);
-  const [form, setForm] = useState({ shopName: "", ownerName: "", phone: "", address: "" });
+  const [form, setForm] = useState({ shopName: "", ownerName: "", phone: "", address: emptyAddress });
   const [, setLocation] = useState({ location: null, deliveryRadius: 5 });
-  const [coords, setCoords] = useState({ latitude: "", longitude: "" });
+  const [coords, setCoords] = useState({ latitude: null, longitude: null });
   const [radius, setRadius] = useState(5);
 
   useEffect(() => {
     Promise.all([apiRequest("/api/chemist/profile"), apiRequest("/api/chemist/location")])
       .then(([profileRes, locationRes]) => {
         const chemist = profileRes.data;
-        setForm({ shopName: chemist.shopName || "", ownerName: chemist.ownerName || "", phone: chemist.phone || "", address: chemist.address || "" });
+        setForm({
+          shopName: chemist.shopName || "",
+          ownerName: chemist.ownerName || "",
+          phone: chemist.phone || "",
+          address: { ...emptyAddress, ...(chemist.address || {}) },
+        });
         setLocation(locationRes.data);
         setRadius(locationRes.data.deliveryRadius ?? 5);
         const [lng, lat] = locationRes.data.location?.coordinates || [];
-        setCoords({ latitude: lat ?? "", longitude: lng ?? "" });
+        setCoords({ latitude: lat ?? null, longitude: lng ?? null });
       })
       .catch((err) => setError(err.message))
       .finally(() => setLoading(false));
   }, []);
+
+  function setAddressField(key, value) {
+    setForm((f) => ({ ...f, address: { ...f.address, [key]: value } }));
+  }
 
   async function saveProfile(e) {
     e.preventDefault();
@@ -39,11 +51,15 @@ export default function Profile() {
 
   async function saveLocation(e) {
     e.preventDefault();
+    if (!Number.isFinite(coords.latitude) || !Number.isFinite(coords.longitude)) {
+      setBanner({ type: "error", message: "Pick a location on the map first." });
+      return;
+    }
     setSaving(true); setBanner(null);
     try {
       const res = await apiRequest("/api/chemist/location", {
         method: "PUT",
-        body: { latitude: Number(coords.latitude), longitude: Number(coords.longitude) },
+        body: { latitude: coords.latitude, longitude: coords.longitude },
       });
       setLocation(res.data);
       setBanner({ type: "success", message: "Location updated." });
@@ -76,17 +92,26 @@ export default function Profile() {
             <Field label="Shop name"><Input value={form.shopName} onChange={(e) => setForm({ ...form, shopName: e.target.value })} required /></Field>
             <Field label="Owner name"><Input value={form.ownerName} onChange={(e) => setForm({ ...form, ownerName: e.target.value })} required /></Field>
             <Field label="Phone"><Input value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} required /></Field>
-            <Field label="Address"><Input value={form.address} onChange={(e) => setForm({ ...form, address: e.target.value })} required /></Field>
+            <Field label="Street"><Input value={form.address.street} onChange={(e) => setAddressField("street", e.target.value)} required /></Field>
+            <div className="grid grid-cols-2 gap-3">
+              <Field label="City"><Input value={form.address.city} onChange={(e) => setAddressField("city", e.target.value)} required /></Field>
+              <Field label="State"><Input value={form.address.state} onChange={(e) => setAddressField("state", e.target.value)} required /></Field>
+            </div>
+            <Field label="Pincode"><Input value={form.address.pincode} onChange={(e) => setAddressField("pincode", e.target.value)} required /></Field>
             <Button loading={saving} type="submit">Save details</Button>
           </form>
         </Card>
         <div className="space-y-4">
           <Card className="p-5">
-            <h2 className="font-bold mb-4">Location</h2>
+            <h2 className="font-bold mb-1">Location</h2>
+            <p className="text-xs text-slate-500 mb-4">Tap the map, drag the pin, or use your current location.</p>
             <form onSubmit={saveLocation}>
-              <Field label="Latitude"><Input type="number" step="any" value={coords.latitude} onChange={(e) => setCoords({ ...coords, latitude: e.target.value })} required /></Field>
-              <Field label="Longitude"><Input type="number" step="any" value={coords.longitude} onChange={(e) => setCoords({ ...coords, longitude: e.target.value })} required /></Field>
-              <Button loading={saving} type="submit">Save location</Button>
+              <LocationPicker
+                latitude={coords.latitude}
+                longitude={coords.longitude}
+                onChange={(latitude, longitude) => setCoords({ latitude, longitude })}
+              />
+              <Button loading={saving} type="submit" className="mt-4">Save location</Button>
             </form>
           </Card>
           <Card className="p-5">
