@@ -15,6 +15,7 @@ const ICONS = {
   quotations: <path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z" />,
   notifications: <><path d="M18 8a6 6 0 00-12 0c0 7-3 9-3 9h18s-3-2-3-9" /><path d="M13.73 21a2 2 0 01-3.46 0" /></>,
   profile: <><circle cx="12" cy="8" r="4" /><path d="M4 21v-1a6 6 0 0112 0v1" /></>,
+  signout: <><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4" /><path d="M16 17l5-5-5-5" /><path d="M21 12H9" /></>,
 };
 
 function NavIcon({ name, className = "" }) {
@@ -85,24 +86,21 @@ export default function DashboardLayout() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-100 text-slate-900">
-      <header className="bg-slate-950 px-5 py-4 text-white flex justify-between items-center shadow-sm">
-        <div className="flex items-center gap-3">
-          <div className="h-9 w-9 rounded-full bg-indigo-500/20 border border-indigo-400/30 flex items-center justify-center font-bold text-indigo-300">
+    <div className="min-h-screen bg-slate-100 text-slate-900 flex flex-col lg:flex-row">
+      <aside className="lg:w-64 lg:shrink-0 lg:h-screen lg:sticky lg:top-0 bg-slate-950 flex flex-col shadow-sm">
+        <div className="flex items-center gap-3 px-4 py-4 border-b border-white/10">
+          <div className="h-9 w-9 rounded-full bg-indigo-500/20 border border-indigo-400/30 flex items-center justify-center font-bold text-indigo-300 shrink-0">
             {initial}
           </div>
-          <div>
-            <b className="tracking-tight">MediQure Chemist</b>
-            <p className="text-xs text-slate-400">{account.shopName || "Pharmacy workspace"}</p>
+          <div className="min-w-0">
+            <b className="text-white tracking-tight block truncate">MediQure Chemist</b>
+            <p className="text-xs text-slate-400 truncate">{account.shopName || "Pharmacy workspace"}</p>
           </div>
         </div>
-        <button onClick={signOut} className="text-sm text-slate-300 hover:text-white transition-colors">Sign out</button>
-      </header>
-      <div className="max-w-7xl mx-auto p-4 grid gap-4 lg:grid-cols-[230px_1fr]">
-        <aside className="bg-white rounded-xl p-3 h-fit lg:sticky lg:top-4 space-y-4 border border-slate-200/80 shadow-sm shadow-slate-200/50">
+        <nav className="lg:flex-1 lg:overflow-y-auto p-3 space-y-4">
           {NAV_SECTIONS.map((section) => (
             <div key={section.label}>
-              <p className="px-3 text-[11px] font-semibold uppercase tracking-wide text-slate-400 mb-1">{section.label}</p>
+              <p className="px-3 text-[11px] font-semibold uppercase tracking-wide text-slate-500 mb-1">{section.label}</p>
               {section.items.map(([path, label, icon]) => (
                 <NavLink
                   key={path}
@@ -111,8 +109,8 @@ export default function DashboardLayout() {
                   className={({ isActive }) =>
                     `flex items-center gap-2.5 pl-2.5 pr-3 py-2 rounded-lg text-sm border-l-2 transition-colors ${
                       isActive
-                        ? "border-indigo-600 bg-indigo-50 text-indigo-700 font-medium"
-                        : "border-transparent hover:bg-slate-50 text-slate-600 hover:text-slate-900"
+                        ? "border-indigo-400 bg-indigo-500/15 text-indigo-300 font-medium"
+                        : "border-transparent text-slate-400 hover:bg-white/5 hover:text-slate-100"
                     }`
                   }
                 >
@@ -122,10 +120,21 @@ export default function DashboardLayout() {
               ))}
             </div>
           ))}
-        </aside>
-        <section className="min-w-0">
+        </nav>
+        <div className="p-3 border-t border-white/10">
+          <button
+            onClick={signOut}
+            className="w-full flex items-center gap-2.5 pl-2.5 pr-3 py-2 rounded-lg text-sm text-slate-400 hover:bg-white/5 hover:text-slate-100 transition-colors"
+          >
+            <NavIcon name="signout" className="h-4.5 w-4.5 shrink-0" />
+            Sign out
+          </button>
+        </div>
+      </aside>
+      <div className="flex-1 min-w-0">
+        <main className="max-w-6xl mx-auto p-4 sm:p-6">
           <Outlet />
-        </section>
+        </main>
       </div>
     </div>
   );
