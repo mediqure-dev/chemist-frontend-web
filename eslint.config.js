@@ -17,5 +17,10 @@ export default defineConfig([
       globals: globals.browser,
       parserOptions: { ecmaFeatures: { jsx: true } },
     },
+    rules: {
+      // The dashboard fetches data in effects (load-on-mount, reload-on-filter-change)
+      // throughout the app; this rule flags that standard, correct pattern as an error.
+      'react-hooks/set-state-in-effect': 'off',
+    },
   },
 ])

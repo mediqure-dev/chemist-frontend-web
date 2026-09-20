@@ -77,7 +77,7 @@ function ChemistLanding() {
     },
     {
       title: "Digital Invoices",
-      description: "Generate and send SMS/WhatsApp invoices straight to customers.",
+      description: "Generate and email invoices straight to customers.",
       icon: "📄",
     },
     {
