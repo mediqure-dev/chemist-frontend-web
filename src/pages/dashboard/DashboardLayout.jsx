@@ -1,4 +1,5 @@
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import { ThemeToggle } from "../../components/ui/index.jsx";
 
 const ICONS = {
   dashboard: <><rect x="3" y="3" width="7.5" height="7.5" rx="1.5" /><rect x="13.5" y="3" width="7.5" height="7.5" rx="1.5" /><rect x="3" y="13.5" width="7.5" height="7.5" rx="1.5" /><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="1.5" /></>,
@@ -86,14 +87,16 @@ export default function DashboardLayout() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-100 text-slate-900 flex flex-col lg:flex-row">
+    <div className="min-h-screen bg-slate-100 dark:bg-slate-950 text-slate-900 dark:text-slate-100 flex flex-col lg:flex-row">
       <aside className="lg:w-64 lg:shrink-0 lg:h-screen lg:sticky lg:top-0 bg-slate-950 flex flex-col shadow-sm">
         <div className="flex items-center gap-3 px-4 py-4 border-b border-white/10">
           <div className="h-9 w-9 rounded-full bg-indigo-500/20 border border-indigo-400/30 flex items-center justify-center font-bold text-indigo-300 shrink-0">
             {initial}
           </div>
           <div className="min-w-0">
-            <b className="text-white tracking-tight block truncate">MediQure Chemist</b>
+            <div className="inline-block bg-white rounded px-1.5 py-1 mb-1">
+              <img src="/logo.png" alt="MediQure" className="h-4 w-auto" />
+            </div>
             <p className="text-xs text-slate-400 truncate">{account.shopName || "Pharmacy workspace"}</p>
           </div>
         </div>
@@ -132,7 +135,10 @@ export default function DashboardLayout() {
         </div>
       </aside>
       <div className="flex-1 min-w-0">
-        <main className="max-w-6xl mx-auto p-4 sm:p-6">
+        <div className="flex justify-end px-4 sm:px-6 pt-3">
+          <ThemeToggle />
+        </div>
+        <main className="max-w-6xl mx-auto p-4 sm:p-6 pt-1">
           <Outlet />
         </main>
       </div>

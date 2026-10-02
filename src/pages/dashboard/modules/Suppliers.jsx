@@ -168,7 +168,7 @@ export default function Suppliers() {
         {selected && editForm && (
           <>
             <div className="flex items-center gap-2 mb-4">
-              <span className="text-sm text-slate-500">Status:</span>
+              <span className="text-sm text-slate-500 dark:text-slate-400">Status:</span>
               <Badge>{selected.status}</Badge>
             </div>
             <Banner message={editBanner} />

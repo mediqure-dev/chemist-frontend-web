@@ -137,10 +137,10 @@ function PaymentDetailModal({ payment, onClose, onChanged }) {
         <Row label="Paid at" value={formatDate(payment.paidAt)} />
         <Row label="Created" value={formatDate(payment.createdAt)} />
       </div>
-      {payment.notes && <p className="text-sm mb-4"><span className="text-slate-500">Notes: </span>{payment.notes}</p>}
+      {payment.notes && <p className="text-sm mb-4"><span className="text-slate-500 dark:text-slate-400">Notes: </span>{payment.notes}</p>}
 
       {isPending && (
-        <div className="border-t border-slate-200 pt-3 space-y-3">
+        <div className="border-t border-slate-200 dark:border-slate-800 pt-3 space-y-3">
           <Field label="Transaction ID (optional)"><Input value={transactionId} onChange={(e) => setTransactionId(e.target.value)} /></Field>
           <div className="flex flex-wrap gap-2">
             <Button size="sm" loading={busy} onClick={markPaid}>Mark as paid</Button>
@@ -151,7 +151,7 @@ function PaymentDetailModal({ payment, onClose, onChanged }) {
       )}
 
       {isPaid && (
-        <div className="border-t border-slate-200 pt-3 space-y-3">
+        <div className="border-t border-slate-200 dark:border-slate-800 pt-3 space-y-3">
           <Field label="Refund notes (optional)"><Textarea rows={2} value={notes} onChange={(e) => setNotes(e.target.value)} /></Field>
           <Button size="sm" variant="danger" loading={busy} onClick={refund}>Refund</Button>
         </div>
@@ -163,7 +163,7 @@ function PaymentDetailModal({ payment, onClose, onChanged }) {
 function Row({ label, value, bold }) {
   return (
     <p className="flex justify-between py-0.5">
-      <span className="text-slate-500">{label}</span>
+      <span className="text-slate-500 dark:text-slate-400">{label}</span>
       <span className={bold ? "font-bold" : ""}>{value}</span>
     </p>
   );
@@ -235,7 +235,7 @@ function RecordPaymentModal({ onClose, onDone }) {
               {PAYMENT_METHODS.map((m) => <option key={m} value={m}>{m}</option>)}
             </Select>
           </Field>
-          <p className="text-xs text-slate-400">
+          <p className="text-xs text-slate-400 dark:text-slate-500">
             {method === "Cash" ? "Cash payments are marked as paid immediately." : "This will create a pending payment you can complete later."}
           </p>
         </form>

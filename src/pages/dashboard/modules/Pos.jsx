@@ -182,21 +182,21 @@ function NewSaleModal({ onClose, onCreated }) {
       <Field label="Search inventory to add items" hint="Search by medicine name, batch or barcode">
         <Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Type to search…" />
       </Field>
-      {searching && <p className="text-xs text-slate-400 mb-2">Searching…</p>}
+      {searching && <p className="text-xs text-slate-400 dark:text-slate-500 mb-2">Searching…</p>}
       {results.length > 0 && (
-        <div className="border border-slate-200 rounded-lg mb-4 divide-y divide-slate-100 max-h-56 overflow-y-auto">
+        <div className="border border-slate-200 dark:border-slate-800 rounded-lg mb-4 divide-y divide-slate-100 dark:divide-slate-800 max-h-56 overflow-y-auto">
           {results.map((inv) => (
             <button
               type="button"
               key={inv._id}
               onClick={() => addItem(inv)}
-              className="w-full text-left px-3 py-2 text-sm hover:bg-slate-50 flex justify-between items-center"
+              className="w-full text-left px-3 py-2 text-sm hover:bg-slate-50 dark:hover:bg-slate-800 flex justify-between items-center"
             >
               <span>
                 <b>{inv.medicineName}</b>{" "}
-                <span className="text-slate-400">Batch {inv.batchNumber} · Qty {inv.quantity - (inv.reservedQuantity || 0)} avail</span>
+                <span className="text-slate-400 dark:text-slate-500">Batch {inv.batchNumber} · Qty {inv.quantity - (inv.reservedQuantity || 0)} avail</span>
               </span>
-              <span className="text-slate-600">{formatMoney(inv.mrp)}</span>
+              <span className="text-slate-600 dark:text-slate-300">{formatMoney(inv.mrp)}</span>
             </button>
           ))}
         </div>
@@ -206,7 +206,7 @@ function NewSaleModal({ onClose, onCreated }) {
         <div className="mb-4 overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-slate-200 text-slate-500">
+              <tr className="border-b border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400">
                 <th className="text-left p-1.5 font-medium">Medicine</th>
                 <th className="text-left p-1.5 font-medium">Qty</th>
                 <th className="text-left p-1.5 font-medium">Price</th>
@@ -218,10 +218,10 @@ function NewSaleModal({ onClose, onCreated }) {
             </thead>
             <tbody>
               {items.map((item) => (
-                <tr key={item.inventoryId} className="border-t border-slate-100">
+                <tr key={item.inventoryId} className="border-t border-slate-100 dark:border-slate-800">
                   <td className="p-1.5 align-top">
                     <div className="font-medium">{item.medicineName}</div>
-                    <div className="text-xs text-slate-400">Batch {item.batchNumber} · max {item.available}</div>
+                    <div className="text-xs text-slate-400 dark:text-slate-500">Batch {item.batchNumber} · max {item.available}</div>
                   </td>
                   <td className="p-1.5 w-20">
                     <Input
@@ -243,7 +243,7 @@ function NewSaleModal({ onClose, onCreated }) {
                   </td>
                   <td className="p-1.5 align-top whitespace-nowrap">{formatMoney(lineTotal(item))}</td>
                   <td className="p-1.5 align-top">
-                    <button type="button" className="text-red-500 text-xs" onClick={() => removeItem(item.inventoryId)}>Remove</button>
+                    <button type="button" className="text-red-500 dark:text-red-400 text-xs" onClick={() => removeItem(item.inventoryId)}>Remove</button>
                   </td>
                 </tr>
               ))}
@@ -266,10 +266,10 @@ function NewSaleModal({ onClose, onCreated }) {
       </div>
       <Field label="Notes"><Textarea rows={2} value={notes} onChange={(e) => setNotes(e.target.value)} /></Field>
 
-      <Card className="p-3 mt-2 bg-slate-50">
-        <div className="flex justify-between text-sm"><span className="text-slate-500">Subtotal</span><b>{formatMoney(subTotal)}</b></div>
-        <div className="flex justify-between text-sm mt-1"><span className="text-slate-500">Estimated grand total</span><b>{formatMoney(grandTotal)}</b></div>
-        <p className="text-xs text-slate-400 mt-1">Final totals are calculated by the server on submit.</p>
+      <Card className="p-3 mt-2 bg-slate-50 dark:bg-slate-800">
+        <div className="flex justify-between text-sm"><span className="text-slate-500 dark:text-slate-400">Subtotal</span><b>{formatMoney(subTotal)}</b></div>
+        <div className="flex justify-between text-sm mt-1"><span className="text-slate-500 dark:text-slate-400">Estimated grand total</span><b>{formatMoney(grandTotal)}</b></div>
+        <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">Final totals are calculated by the server on submit.</p>
       </Card>
     </Modal>
   );
@@ -331,16 +331,16 @@ function SaleDetailModal({ sale, onClose }) {
   return (
     <Modal open onClose={onClose} title={`Sale — ${sale.saleNumber}`} width="max-w-2xl">
       <div className="grid sm:grid-cols-2 gap-3 text-sm mb-4">
-        <div><span className="text-slate-500">Customer</span><div className="font-medium">{sale.customerName}</div></div>
-        <div><span className="text-slate-500">Phone</span><div className="font-medium">{sale.customerPhone || "—"}</div></div>
-        <div><span className="text-slate-500">Payment</span><div><Badge tone="indigo">{sale.paymentMethod}</Badge> <Badge>{sale.paymentStatus}</Badge></div></div>
-        <div><span className="text-slate-500">Date</span><div className="font-medium">{formatDateTime(sale.createdAt)}</div></div>
+        <div><span className="text-slate-500 dark:text-slate-400">Customer</span><div className="font-medium">{sale.customerName}</div></div>
+        <div><span className="text-slate-500 dark:text-slate-400">Phone</span><div className="font-medium">{sale.customerPhone || "—"}</div></div>
+        <div><span className="text-slate-500 dark:text-slate-400">Payment</span><div><Badge tone="indigo">{sale.paymentMethod}</Badge> <Badge>{sale.paymentStatus}</Badge></div></div>
+        <div><span className="text-slate-500 dark:text-slate-400">Date</span><div className="font-medium">{formatDateTime(sale.createdAt)}</div></div>
       </div>
 
       <div className="overflow-x-auto mb-4">
         <table className="w-full text-sm">
           <thead>
-            <tr className="border-b border-slate-200 text-slate-500">
+            <tr className="border-b border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400">
               <th className="text-left p-1.5 font-medium">Medicine</th>
               <th className="text-left p-1.5 font-medium">Batch</th>
               <th className="text-left p-1.5 font-medium">Qty</th>
@@ -350,7 +350,7 @@ function SaleDetailModal({ sale, onClose }) {
           </thead>
           <tbody>
             {sale.items?.map((item, idx) => (
-              <tr key={idx} className="border-t border-slate-100">
+              <tr key={idx} className="border-t border-slate-100 dark:border-slate-800">
                 <td className="p-1.5">{item.medicineName}</td>
                 <td className="p-1.5">{item.batchNumber}</td>
                 <td className="p-1.5">{item.quantity}</td>
@@ -362,14 +362,14 @@ function SaleDetailModal({ sale, onClose }) {
         </table>
       </div>
 
-      <Card className="p-3 bg-slate-50 mb-4">
-        <div className="flex justify-between text-sm"><span className="text-slate-500">Subtotal</span><b>{formatMoney(sale.subTotal)}</b></div>
-        <div className="flex justify-between text-sm mt-1"><span className="text-slate-500">Discount</span><b>-{formatMoney(sale.discount)}</b></div>
-        <div className="flex justify-between text-sm mt-1"><span className="text-slate-500">Tax</span><b>{formatMoney(sale.tax)}</b></div>
+      <Card className="p-3 bg-slate-50 dark:bg-slate-800 mb-4">
+        <div className="flex justify-between text-sm"><span className="text-slate-500 dark:text-slate-400">Subtotal</span><b>{formatMoney(sale.subTotal)}</b></div>
+        <div className="flex justify-between text-sm mt-1"><span className="text-slate-500 dark:text-slate-400">Discount</span><b>-{formatMoney(sale.discount)}</b></div>
+        <div className="flex justify-between text-sm mt-1"><span className="text-slate-500 dark:text-slate-400">Tax</span><b>{formatMoney(sale.tax)}</b></div>
         <div className="flex justify-between text-sm mt-1 font-bold"><span>Grand total</span><span>{formatMoney(sale.grandTotal)}</span></div>
       </Card>
 
-      <div className="border-t border-slate-200 pt-4">
+      <div className="border-t border-slate-200 dark:border-slate-800 pt-4">
         <h3 className="font-bold text-sm mb-2">Invoice</h3>
         <Banner message={actionBanner} />
         {invoiceState.loading ? (
@@ -382,7 +382,7 @@ function SaleDetailModal({ sale, onClose }) {
               <Button size="sm" variant="secondary" loading={busy} onClick={resendEmail}>Resend email</Button>
             </div>
             {invoiceState.emailResult && (
-              <p className="text-xs text-slate-500">
+              <p className="text-xs text-slate-500 dark:text-slate-400">
                 Email: {invoiceState.emailResult.sent ? "sent" : "not sent"}
                 {invoiceState.emailResult.reason ? ` (${invoiceState.emailResult.reason})` : ""}
                 {invoiceState.emailResult.message ? ` — ${invoiceState.emailResult.message}` : ""}
@@ -391,7 +391,7 @@ function SaleDetailModal({ sale, onClose }) {
           </div>
         ) : (
           <div>
-            <p className="text-sm text-slate-500 mb-2">No invoice generated for this sale yet.</p>
+            <p className="text-sm text-slate-500 dark:text-slate-400 mb-2">No invoice generated for this sale yet.</p>
             <Button size="sm" loading={busy} onClick={generateInvoice}>Generate invoice</Button>
           </div>
         )}

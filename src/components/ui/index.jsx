@@ -1,16 +1,19 @@
 /* eslint-disable react-refresh/only-export-components -- intentional: this is a shared kit file mixing components with the helpers/hooks they're used alongside, not a component meant for Fast Refresh isolation. */
 import { useEffect, useState } from "react";
+import { getInitialTheme, setTheme as persistTheme } from "../../lib/theme.js";
 
 /* Shared UI kit for the chemist dashboard. Keep styling consistent with the
    indigo/slate look already used on Login/Register: rounded-xl, slate-100
-   background, white cards, indigo-600 accents. */
+   background, white cards, indigo-600 accents. Every surface here carries a
+   dark: variant so the whole app (not just the public pages) tracks the
+   light/dark toggle consistently. */
 
 export function PageHeader({ title, subtitle, action }) {
   return (
     <div className="flex flex-wrap items-start justify-between gap-3 mb-6">
       <div>
-        <h1 className="font-bold text-xl text-slate-900 tracking-tight">{title}</h1>
-        {subtitle && <p className="text-sm text-slate-500 mt-1">{subtitle}</p>}
+        <h1 className="font-bold text-xl text-slate-900 dark:text-white tracking-tight">{title}</h1>
+        {subtitle && <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">{subtitle}</p>}
       </div>
       {action && <div className="flex items-center gap-2">{action}</div>}
     </div>
@@ -18,14 +21,45 @@ export function PageHeader({ title, subtitle, action }) {
 }
 
 export function Card({ className = "", children }) {
-  return <div className={`bg-white rounded-xl border border-slate-200/80 shadow-sm shadow-slate-200/50 ${className}`}>{children}</div>;
+  return <div className={`bg-white dark:bg-slate-900 rounded-xl border border-slate-200/80 dark:border-slate-800 shadow-sm shadow-slate-200/50 dark:shadow-none ${className}`}>{children}</div>;
+}
+
+/** Sun/moon button that flips the persisted light/dark preference. */
+export function ThemeToggle({ className = "" }) {
+  const [theme, setThemeState] = useState(getInitialTheme);
+
+  function toggle() {
+    const next = theme === "dark" ? "light" : "dark";
+    persistTheme(next);
+    setThemeState(next);
+  }
+
+  return (
+    <button
+      type="button"
+      onClick={toggle}
+      aria-label={theme === "dark" ? "Switch to light theme" : "Switch to dark theme"}
+      className={`h-9 w-9 rounded-full flex items-center justify-center text-slate-500 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-white dark:hover:bg-white/10 transition-colors ${className}`}
+    >
+      {theme === "dark" ? (
+        <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+          <circle cx="12" cy="12" r="4.5" />
+          <path d="M12 3v1.5M12 19.5V21M4.6 4.6l1.1 1.1M18.3 18.3l1.1 1.1M3 12h1.5M19.5 12H21M4.6 19.4l1.1-1.1M18.3 5.7l1.1-1.1" />
+        </svg>
+      ) : (
+        <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M21 12.5A8.5 8.5 0 1111.5 3a6.5 6.5 0 009.5 9.5z" />
+        </svg>
+      )}
+    </button>
+  );
 }
 
 const buttonVariants = {
   primary: "bg-indigo-600 hover:bg-indigo-700 text-white shadow-sm shadow-indigo-600/20 focus-visible:ring-indigo-500",
-  secondary: "bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 focus-visible:ring-slate-400",
+  secondary: "bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-200 dark:border-slate-700 focus-visible:ring-slate-400",
   danger: "bg-red-600 hover:bg-red-700 text-white shadow-sm shadow-red-600/20 focus-visible:ring-red-500",
-  ghost: "bg-transparent hover:bg-slate-100 text-slate-600 focus-visible:ring-slate-400",
+  ghost: "bg-transparent hover:bg-slate-100 text-slate-600 dark:text-slate-300 dark:hover:bg-white/10 focus-visible:ring-slate-400",
 };
 
 function MiniSpinner({ className = "text-current" }) {
@@ -52,12 +86,12 @@ export function Button({ variant = "primary", size = "md", loading, disabled, cl
 }
 
 const badgeTones = {
-  slate: "bg-slate-100 text-slate-600",
-  green: "bg-emerald-50 text-emerald-700",
-  amber: "bg-amber-50 text-amber-700",
-  red: "bg-red-50 text-red-700",
-  indigo: "bg-indigo-50 text-indigo-700",
-  blue: "bg-blue-50 text-blue-700",
+  slate: "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300",
+  green: "bg-emerald-50 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400",
+  amber: "bg-amber-50 text-amber-700 dark:bg-amber-500/10 dark:text-amber-400",
+  red: "bg-red-50 text-red-700 dark:bg-red-500/10 dark:text-red-400",
+  indigo: "bg-indigo-50 text-indigo-700 dark:bg-indigo-500/10 dark:text-indigo-400",
+  blue: "bg-blue-50 text-blue-700 dark:bg-blue-500/10 dark:text-blue-400",
 };
 
 const badgeDots = {
@@ -98,7 +132,7 @@ export function Table({ columns, rows, rowKey = "_id", emptyMessage = "No record
         <thead>
           <tr>
             {columns.map((col) => (
-              <th key={col.key} className="text-left px-3 py-2 text-[11px] font-semibold uppercase tracking-wide text-slate-400 whitespace-nowrap border-b border-slate-200">{col.label}</th>
+              <th key={col.key} className="text-left px-3 py-2 text-[11px] font-semibold uppercase tracking-wide text-slate-400 dark:text-slate-500 whitespace-nowrap border-b border-slate-200 dark:border-slate-800">{col.label}</th>
             ))}
           </tr>
         </thead>
@@ -110,7 +144,7 @@ export function Table({ columns, rows, rowKey = "_id", emptyMessage = "No record
               onClick={onRowClick ? () => onRowClick(row) : undefined}
             >
               {columns.map((col) => (
-                <td key={col.key} className="px-3 py-2.5 align-top border-b border-slate-100 group-hover:bg-slate-50/80 transition-colors">
+                <td key={col.key} className="px-3 py-2.5 align-top border-b border-slate-100 dark:border-slate-800 dark:text-slate-200 group-hover:bg-slate-50/80 dark:group-hover:bg-slate-800/60 transition-colors">
                   {col.render ? col.render(row) : (row[col.key] ?? "—")}
                 </td>
               ))}
@@ -126,7 +160,7 @@ export function Pagination({ page, totalPages, onChange }) {
   if (!totalPages || totalPages <= 1) return null;
   return (
     <div className="flex items-center justify-between mt-4 text-sm">
-      <span className="text-slate-500">Page {page} of {totalPages}</span>
+      <span className="text-slate-500 dark:text-slate-400">Page {page} of {totalPages}</span>
       <div className="flex gap-2">
         <Button variant="secondary" size="sm" disabled={page <= 1} onClick={() => onChange(page - 1)}>Previous</Button>
         <Button variant="secondary" size="sm" disabled={page >= totalPages} onClick={() => onChange(page + 1)}>Next</Button>
@@ -145,17 +179,17 @@ export function Modal({ open, onClose, title, children, footer, width = "max-w-l
 
   if (!open) return null;
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-[2px] animate-[mq-fade-in_150ms_ease-out]" onClick={onClose}>
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 dark:bg-black/60 backdrop-blur-[2px] animate-[mq-fade-in_150ms_ease-out]" onClick={onClose}>
       <div
-        className={`bg-white rounded-2xl shadow-2xl shadow-slate-900/20 w-full ${width} max-h-[90vh] overflow-y-auto animate-[mq-scale-in_150ms_ease-out]`}
+        className={`bg-white dark:bg-slate-900 rounded-2xl shadow-2xl shadow-slate-900/20 w-full ${width} max-h-[90vh] overflow-y-auto animate-[mq-scale-in_150ms_ease-out]`}
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center justify-between px-5 py-4 border-b border-slate-100 sticky top-0 bg-white/95 backdrop-blur-sm">
-          <h2 className="font-bold text-slate-900">{title}</h2>
-          <button onClick={onClose} className="h-7 w-7 flex items-center justify-center rounded-full text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors text-lg leading-none">&times;</button>
+        <div className="flex items-center justify-between px-5 py-4 border-b border-slate-100 dark:border-slate-800 sticky top-0 bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm">
+          <h2 className="font-bold text-slate-900 dark:text-white">{title}</h2>
+          <button onClick={onClose} className="h-7 w-7 flex items-center justify-center rounded-full text-slate-400 hover:text-slate-700 hover:bg-slate-100 dark:hover:text-slate-200 dark:hover:bg-white/10 transition-colors text-lg leading-none">&times;</button>
         </div>
         <div className="p-5">{children}</div>
-        {footer && <div className="px-5 py-4 border-t border-slate-100 flex justify-end gap-2">{footer}</div>}
+        {footer && <div className="px-5 py-4 border-t border-slate-100 dark:border-slate-800 flex justify-end gap-2">{footer}</div>}
       </div>
     </div>
   );
@@ -164,15 +198,15 @@ export function Modal({ open, onClose, title, children, footer, width = "max-w-l
 export function Field({ label, error, hint, children }) {
   return (
     <label className="block mb-3">
-      {label && <span className="block text-sm font-medium text-slate-700 mb-1">{label}</span>}
+      {label && <span className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">{label}</span>}
       {children}
-      {hint && !error && <span className="block text-xs text-slate-400 mt-1">{hint}</span>}
-      {error && <span className="block text-xs text-red-600 mt-1">{error}</span>}
+      {hint && !error && <span className="block text-xs text-slate-400 dark:text-slate-500 mt-1">{hint}</span>}
+      {error && <span className="block text-xs text-red-600 dark:text-red-400 mt-1">{error}</span>}
     </label>
   );
 }
 
-const inputCls = "w-full h-10 px-3 rounded-lg border border-slate-200 bg-slate-50 text-sm outline-none transition-colors focus:ring-2 focus:ring-indigo-500 focus:border-transparent focus:bg-white placeholder:text-slate-400";
+const inputCls = "w-full h-10 px-3 rounded-lg border border-slate-200 bg-slate-50 text-sm text-slate-900 outline-none transition-colors focus:ring-2 focus:ring-indigo-500 focus:border-transparent focus:bg-white placeholder:text-slate-400 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:focus:bg-slate-800 dark:placeholder:text-slate-500";
 
 export function Input(props) {
   return <input {...props} className={`${inputCls} ${props.className || ""}`} />;
@@ -189,7 +223,7 @@ export function Select({ children, ...props }) {
 export function SearchBox({ value, onChange, placeholder = "Search…" }) {
   return (
     <div className="relative max-w-xs w-full">
-      <svg className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <svg className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 dark:text-slate-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
         <circle cx="11" cy="11" r="7" strokeLinecap="round" />
         <path d="M21 21l-4.35-4.35" strokeLinecap="round" />
       </svg>
@@ -201,8 +235,8 @@ export function SearchBox({ value, onChange, placeholder = "Search…" }) {
 export function Spinner() {
   return (
     <div className="flex flex-col items-center justify-center gap-2 py-12">
-      <div className="h-6 w-6 rounded-full border-2 border-indigo-200 border-t-indigo-600 animate-spin" />
-      <span className="text-xs text-slate-400">Loading…</span>
+      <div className="h-6 w-6 rounded-full border-2 border-indigo-200 dark:border-indigo-500/30 border-t-indigo-600 dark:border-t-indigo-400 animate-spin" />
+      <span className="text-xs text-slate-400 dark:text-slate-500">Loading…</span>
     </div>
   );
 }
@@ -210,18 +244,18 @@ export function Spinner() {
 export function EmptyState({ message = "Nothing here yet." }) {
   return (
     <div className="flex flex-col items-center justify-center gap-2 py-12 text-center">
-      <svg className="h-9 w-9 text-slate-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+      <svg className="h-9 w-9 text-slate-300 dark:text-slate-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
         <path strokeLinecap="round" strokeLinejoin="round" d="M3 7l1.5-3h15L21 7M3 7v11a2 2 0 002 2h14a2 2 0 002-2V7M3 7h18M9 11h6" />
       </svg>
-      <p className="text-sm text-slate-400">{message}</p>
+      <p className="text-sm text-slate-400 dark:text-slate-500">{message}</p>
     </div>
   );
 }
 
 const bannerStyles = {
-  error: { cls: "bg-red-50 text-red-700 border-red-100", icon: "M12 9v4m0 4h.01M10.29 3.86l-8.18 14.14A1.5 1.5 0 003.5 20.5h17a1.5 1.5 0 001.39-2.5L13.71 3.86a1.5 1.5 0 00-2.42 0z" },
-  success: { cls: "bg-emerald-50 text-emerald-700 border-emerald-100", icon: "M5 13l4 4L19 7" },
-  info: { cls: "bg-blue-50 text-blue-700 border-blue-100", icon: "M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" },
+  error: { cls: "bg-red-50 text-red-700 border-red-100 dark:bg-red-500/10 dark:text-red-400 dark:border-red-500/20", icon: "M12 9v4m0 4h.01M10.29 3.86l-8.18 14.14A1.5 1.5 0 003.5 20.5h17a1.5 1.5 0 001.39-2.5L13.71 3.86a1.5 1.5 0 00-2.42 0z" },
+  success: { cls: "bg-emerald-50 text-emerald-700 border-emerald-100 dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/20", icon: "M5 13l4 4L19 7" },
+  info: { cls: "bg-blue-50 text-blue-700 border-blue-100 dark:bg-blue-500/10 dark:text-blue-400 dark:border-blue-500/20", icon: "M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" },
 };
 
 export function Banner({ type = "error", message }) {

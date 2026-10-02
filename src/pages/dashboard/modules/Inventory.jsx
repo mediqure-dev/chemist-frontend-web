@@ -98,7 +98,7 @@ export default function Inventory() {
       key: "expiryDate", label: "Expiry",
       render: (row) => {
         const days = (new Date(row.expiryDate) - new Date()) / 86400000;
-        return <span className={days <= 90 ? "text-amber-600 font-semibold" : ""}>{formatDate(row.expiryDate)}</span>;
+        return <span className={days <= 90 ? "text-amber-600 dark:text-amber-400 font-semibold" : ""}>{formatDate(row.expiryDate)}</span>;
       },
     },
     { key: "status", label: "Status", render: (row) => <Badge>{row.status}</Badge> },
@@ -185,12 +185,12 @@ function MedicinePicker({ value, onSelect }) {
         placeholder="Search medicine by name…"
       />
       {open && results.length > 0 && (
-        <div className="mt-1 border border-slate-200 rounded-lg bg-white shadow-sm max-h-40 overflow-y-auto">
+        <div className="mt-1 border border-slate-200 dark:border-slate-800 rounded-lg bg-white dark:bg-slate-900 shadow-sm max-h-40 overflow-y-auto">
           {results.map((m) => (
             <button
               type="button"
               key={m._id}
-              className="block w-full text-left px-3 py-2 text-sm hover:bg-slate-50"
+              className="block w-full text-left px-3 py-2 text-sm hover:bg-slate-50 dark:hover:bg-slate-800"
               onClick={() => { setSelected(m); onSelect(m); setQuery(m.name); setOpen(false); }}
             >
               {m.name}
@@ -330,10 +330,10 @@ function DetailModal({ item, suppliers, supplierName, onClose, onChanged, onErro
       </>
     }>
       <div className="grid sm:grid-cols-2 gap-3 mb-4 text-sm">
-        <p><span className="text-slate-500">Reserved qty:</span> {item.reservedQuantity ?? 0}</p>
-        <p><span className="text-slate-500">Supplier:</span> {supplierName(typeof item.supplierId === "object" ? item.supplierId?._id : item.supplierId)}</p>
-        <p><span className="text-slate-500">Created:</span> {formatDate(item.createdAt)}</p>
-        <p><span className="text-slate-500">Updated:</span> {formatDate(item.updatedAt)}</p>
+        <p><span className="text-slate-500 dark:text-slate-400">Reserved qty:</span> {item.reservedQuantity ?? 0}</p>
+        <p><span className="text-slate-500 dark:text-slate-400">Supplier:</span> {supplierName(typeof item.supplierId === "object" ? item.supplierId?._id : item.supplierId)}</p>
+        <p><span className="text-slate-500 dark:text-slate-400">Created:</span> {formatDate(item.createdAt)}</p>
+        <p><span className="text-slate-500 dark:text-slate-400">Updated:</span> {formatDate(item.updatedAt)}</p>
       </div>
 
       <Card className="p-3 mb-4">

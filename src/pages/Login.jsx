@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { ThemeToggle } from "../components/ui/index.jsx";
 
 function Login() {
 
@@ -121,6 +122,8 @@ function Login() {
     return (
         <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex items-center justify-center p-4">
 
+            <ThemeToggle className="fixed top-4 right-4" />
+
             <div className="w-full max-w-md">
 
                 <div className="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl p-8 border border-slate-200 dark:border-slate-800">
@@ -128,6 +131,8 @@ function Login() {
                     {/* Header */}
 
                     <div className="text-center mb-8">
+
+                        <img src="/logo.png" alt="MediQure" className="h-10 w-auto mx-auto mb-5" />
 
                         <h1 className="text-3xl font-bold text-slate-900 dark:text-white">
                             Chemist Login

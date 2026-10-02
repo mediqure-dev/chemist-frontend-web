@@ -87,7 +87,7 @@ export default function Profile() {
       {error && <Banner message={error} />}
       <div className="grid lg:grid-cols-2 gap-4">
         <Card className="p-5">
-          <h2 className="font-bold mb-4">Pharmacy details</h2>
+          <h2 className="font-bold mb-4 text-slate-900 dark:text-white">Pharmacy details</h2>
           <form onSubmit={saveProfile}>
             <Field label="Shop name"><Input value={form.shopName} onChange={(e) => setForm({ ...form, shopName: e.target.value })} required /></Field>
             <Field label="Owner name"><Input value={form.ownerName} onChange={(e) => setForm({ ...form, ownerName: e.target.value })} required /></Field>
@@ -103,8 +103,8 @@ export default function Profile() {
         </Card>
         <div className="space-y-4">
           <Card className="p-5">
-            <h2 className="font-bold mb-1">Location</h2>
-            <p className="text-xs text-slate-500 mb-4">Tap the map, drag the pin, or use your current location.</p>
+            <h2 className="font-bold mb-1 text-slate-900 dark:text-white">Location</h2>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mb-4">Tap the map, drag the pin, or use your current location.</p>
             <form onSubmit={saveLocation}>
               <LocationPicker
                 latitude={coords.latitude}
@@ -115,7 +115,7 @@ export default function Profile() {
             </form>
           </Card>
           <Card className="p-5">
-            <h2 className="font-bold mb-4">Delivery radius</h2>
+            <h2 className="font-bold mb-4 text-slate-900 dark:text-white">Delivery radius</h2>
             <form onSubmit={saveRadius}>
               <Field label="Radius (km)" hint="Between 0 and 100 km"><Input type="number" min="0.1" max="100" step="any" value={radius} onChange={(e) => setRadius(e.target.value)} required /></Field>
               <Button loading={saving} type="submit">Save radius</Button>

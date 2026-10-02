@@ -170,18 +170,18 @@ function QuotationDetailModal({ quotation, onClose, onChanged, onConverted }) {
     >
       {error && <Banner message={error} />}
       <div className="flex items-center gap-2 mb-4">
-        <span className="text-sm text-slate-500">Status:</span>
+        <span className="text-sm text-slate-500 dark:text-slate-400">Status:</span>
         <Badge>{quotation.status}</Badge>
       </div>
 
       <div className="mb-4">
-        <p className="text-xs font-medium text-slate-500 mb-2">Line items</p>
+        <p className="text-xs font-medium text-slate-500 dark:text-slate-400 mb-2">Line items</p>
         <div className="space-y-2">
           {(quotation.items || []).map((it, idx) => (
-            <div key={idx} className="flex justify-between items-center bg-slate-50 rounded-lg p-2 text-sm">
+            <div key={idx} className="flex justify-between items-center bg-slate-50 dark:bg-slate-800 rounded-lg p-2 text-sm">
               <div>
                 <p className="font-medium">{it.medicineName}</p>
-                <p className="text-xs text-slate-500">Batch {it.batchNumber} · qty {it.quantity} · {formatMoney(it.sellingPrice)} each</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400">Batch {it.batchNumber} · qty {it.quantity} · {formatMoney(it.sellingPrice)} each</p>
               </div>
               <span className="font-semibold">{formatMoney(it.total)}</span>
             </div>
@@ -189,7 +189,7 @@ function QuotationDetailModal({ quotation, onClose, onChanged, onConverted }) {
         </div>
       </div>
 
-      <div className="space-y-1 text-sm border-t border-slate-200 pt-3">
+      <div className="space-y-1 text-sm border-t border-slate-200 dark:border-slate-800 pt-3">
         <Row label="Subtotal" value={formatMoney(quotation.subTotal)} />
         <Row label="Discount" value={formatMoney(quotation.discount)} />
         <Row label="Tax" value={formatMoney(quotation.tax)} />
@@ -199,11 +199,11 @@ function QuotationDetailModal({ quotation, onClose, onChanged, onConverted }) {
       </div>
 
       {quotation.notes && (
-        <p className="text-sm mt-3"><span className="text-slate-500">Notes: </span>{quotation.notes}</p>
+        <p className="text-sm mt-3"><span className="text-slate-500 dark:text-slate-400">Notes: </span>{quotation.notes}</p>
       )}
 
       {quotation.orderId && (
-        <div className="mt-4 p-3 rounded-lg bg-slate-50 text-sm text-slate-600">
+        <div className="mt-4 p-3 rounded-lg bg-slate-50 dark:bg-slate-800 text-sm text-slate-600 dark:text-slate-300">
           Linked order ID: <span className="font-mono text-xs">{quotation.orderId}</span>
         </div>
       )}
@@ -214,7 +214,7 @@ function QuotationDetailModal({ quotation, onClose, onChanged, onConverted }) {
 function Row({ label, value, bold }) {
   return (
     <p className="flex justify-between py-0.5">
-      <span className="text-slate-500">{label}</span>
+      <span className="text-slate-500 dark:text-slate-400">{label}</span>
       <span className={bold ? "font-bold" : ""}>{value}</span>
     </p>
   );
@@ -346,7 +346,7 @@ function NewQuotationModal({ onClose, onCreated }) {
             </Select>
           )}
           {!loadingPrescriptions && prescriptions.length === 0 && (
-            <span className="block text-xs text-amber-600 mt-1">No approved prescriptions without a quotation yet.</span>
+            <span className="block text-xs text-amber-600 dark:text-amber-400 mt-1">No approved prescriptions without a quotation yet.</span>
           )}
         </Field>
 
@@ -354,21 +354,21 @@ function NewQuotationModal({ onClose, onCreated }) {
           <Input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="e.g. Paracetamol" />
         </Field>
 
-        {searching && <p className="text-xs text-slate-400 mb-2">Searching…</p>}
+        {searching && <p className="text-xs text-slate-400 dark:text-slate-500 mb-2">Searching…</p>}
         {results.length > 0 && (
-          <div className="border border-slate-200 rounded-lg mb-3 divide-y divide-slate-100 max-h-48 overflow-y-auto">
+          <div className="border border-slate-200 dark:border-slate-800 rounded-lg mb-3 divide-y divide-slate-100 dark:divide-slate-800 max-h-48 overflow-y-auto">
             {results.map((inv) => (
               <button
                 type="button"
                 key={inv._id}
                 onClick={() => addItem(inv)}
-                className="w-full text-left px-3 py-2 text-sm hover:bg-slate-50 flex justify-between items-center"
+                className="w-full text-left px-3 py-2 text-sm hover:bg-slate-50 dark:hover:bg-slate-800 flex justify-between items-center"
               >
                 <span>
                   <span className="font-medium">{inv.medicineName}</span>
-                  <span className="text-slate-400"> · batch {inv.batchNumber} · avail {(inv.quantity || 0) - (inv.reservedQuantity || 0)}</span>
+                  <span className="text-slate-400 dark:text-slate-500"> · batch {inv.batchNumber} · avail {(inv.quantity || 0) - (inv.reservedQuantity || 0)}</span>
                 </span>
-                <span className="text-slate-500">{formatMoney(inv.mrp)}</span>
+                <span className="text-slate-500 dark:text-slate-400">{formatMoney(inv.mrp)}</span>
               </button>
             ))}
           </div>
@@ -379,10 +379,10 @@ function NewQuotationModal({ onClose, onCreated }) {
         ) : (
           <div className="mb-4 space-y-2">
             {items.map((it) => (
-              <div key={it.inventoryId} className="flex flex-wrap items-center gap-2 bg-slate-50 rounded-lg p-2">
+              <div key={it.inventoryId} className="flex flex-wrap items-center gap-2 bg-slate-50 dark:bg-slate-800 rounded-lg p-2">
                 <div className="flex-1 min-w-[140px]">
                   <p className="text-sm font-medium">{it.medicineName}</p>
-                  <p className="text-xs text-slate-500">Batch {it.batchNumber} · avail {it.available} · mrp {formatMoney(it.mrp)}</p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">Batch {it.batchNumber} · avail {it.available} · mrp {formatMoney(it.mrp)}</p>
                 </div>
                 <Input
                   type="number" min="1" step="1" value={it.quantity}
@@ -409,13 +409,13 @@ function NewQuotationModal({ onClose, onCreated }) {
         <Field label="Valid until (optional)"><Input type="date" value={validUntil} onChange={(e) => setValidUntil(e.target.value)} /></Field>
         <Field label="Notes (optional)"><Textarea rows={2} value={notes} onChange={(e) => setNotes(e.target.value)} /></Field>
 
-        <div className="flex justify-between items-center pt-2 border-t border-slate-200 text-sm">
-          <span className="text-slate-500">Running subtotal</span>
+        <div className="flex justify-between items-center pt-2 border-t border-slate-200 dark:border-slate-800 text-sm">
+          <span className="text-slate-500 dark:text-slate-400">Running subtotal</span>
           <span className="font-semibold">{formatMoney(subTotal)}</span>
         </div>
         <div className="flex justify-between items-center text-sm">
-          <span className="text-slate-500">Estimated grand total</span>
-          <span className="font-bold text-indigo-700">{formatMoney(grandTotal)}</span>
+          <span className="text-slate-500 dark:text-slate-400">Estimated grand total</span>
+          <span className="font-bold text-indigo-700 dark:text-indigo-400">{formatMoney(grandTotal)}</span>
         </div>
       </form>
     </Modal>

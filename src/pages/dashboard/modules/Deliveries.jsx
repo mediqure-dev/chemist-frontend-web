@@ -227,7 +227,7 @@ export default function Deliveries() {
               </Select>
             )}
             {!ordersLoading && !readyOrders.length && (
-              <span className="block text-xs text-slate-400 mt-1">No orders with status "Ready" available.</span>
+              <span className="block text-xs text-slate-400 dark:text-slate-500 mt-1">No orders with status "Ready" available.</span>
             )}
           </Field>
           <Field label="Delivery address">
@@ -248,27 +248,27 @@ export default function Deliveries() {
         {selected && (
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <span className="text-sm text-slate-500">Status:</span>
+              <span className="text-sm text-slate-500 dark:text-slate-400">Status:</span>
               <Badge>{selected.status}</Badge>
             </div>
             <Banner message={detailBanner} />
 
             <div className="grid sm:grid-cols-2 gap-4 mb-4">
               <Card className="p-4">
-                <h3 className="font-semibold text-sm text-slate-500 mb-2">Details</h3>
-                <p className="text-sm mb-1"><span className="text-slate-500">Order:</span> {selected.orderId?.orderNumber || selected.orderId?._id || selected.orderId || "—"}</p>
-                <p className="text-sm mb-1"><span className="text-slate-500">Partner:</span> {selected.deliveryPartnerId || "—"}</p>
-                <p className="text-sm mb-1"><span className="text-slate-500">Address:</span> {selected.deliveryAddress || "—"}</p>
-                <p className="text-sm mb-1"><span className="text-slate-500">Notes:</span> {selected.notes || "—"}</p>
+                <h3 className="font-semibold text-sm text-slate-500 dark:text-slate-400 mb-2">Details</h3>
+                <p className="text-sm mb-1"><span className="text-slate-500 dark:text-slate-400">Order:</span> {selected.orderId?.orderNumber || selected.orderId?._id || selected.orderId || "—"}</p>
+                <p className="text-sm mb-1"><span className="text-slate-500 dark:text-slate-400">Partner:</span> {selected.deliveryPartnerId || "—"}</p>
+                <p className="text-sm mb-1"><span className="text-slate-500 dark:text-slate-400">Address:</span> {selected.deliveryAddress || "—"}</p>
+                <p className="text-sm mb-1"><span className="text-slate-500 dark:text-slate-400">Notes:</span> {selected.notes || "—"}</p>
               </Card>
               <Card className="p-4">
-                <h3 className="font-semibold text-sm text-slate-500 mb-2">Timeline & location</h3>
-                <p className="text-sm mb-1"><span className="text-slate-500">Created:</span> {formatDateTime(selected.createdAt)}</p>
-                <p className="text-sm mb-1"><span className="text-slate-500">Assigned:</span> {formatDateTime(selected.assignedAt)}</p>
-                <p className="text-sm mb-1"><span className="text-slate-500">Picked up:</span> {formatDateTime(selected.pickedUpAt)}</p>
-                <p className="text-sm mb-1"><span className="text-slate-500">Delivered:</span> {formatDateTime(selected.deliveredAt)}</p>
+                <h3 className="font-semibold text-sm text-slate-500 dark:text-slate-400 mb-2">Timeline & location</h3>
+                <p className="text-sm mb-1"><span className="text-slate-500 dark:text-slate-400">Created:</span> {formatDateTime(selected.createdAt)}</p>
+                <p className="text-sm mb-1"><span className="text-slate-500 dark:text-slate-400">Assigned:</span> {formatDateTime(selected.assignedAt)}</p>
+                <p className="text-sm mb-1"><span className="text-slate-500 dark:text-slate-400">Picked up:</span> {formatDateTime(selected.pickedUpAt)}</p>
+                <p className="text-sm mb-1"><span className="text-slate-500 dark:text-slate-400">Delivered:</span> {formatDateTime(selected.deliveredAt)}</p>
                 <p className="text-sm mb-1">
-                  <span className="text-slate-500">Current location:</span>{" "}
+                  <span className="text-slate-500 dark:text-slate-400">Current location:</span>{" "}
                   {selected.currentLocation?.latitude != null
                     ? `${selected.currentLocation.latitude}, ${selected.currentLocation.longitude} (${formatDateTime(selected.currentLocation.updatedAt)})`
                     : "—"}
@@ -278,7 +278,7 @@ export default function Deliveries() {
 
             {selected.status === "Pending" && (
               <Card className="p-4 mb-4">
-                <h3 className="font-semibold text-sm text-slate-500 mb-2">Assign delivery partner</h3>
+                <h3 className="font-semibold text-sm text-slate-500 dark:text-slate-400 mb-2">Assign delivery partner</h3>
                 <div className="flex items-end gap-2">
                   <Field label="Delivery partner ID">
                     <Input value={partnerId} onChange={(e) => setPartnerId(e.target.value)} placeholder="Partner user ID" />
@@ -290,7 +290,7 @@ export default function Deliveries() {
 
             {!isTerminal && (
               <Card className="p-4 mb-4">
-                <h3 className="font-semibold text-sm text-slate-500 mb-2">Update location</h3>
+                <h3 className="font-semibold text-sm text-slate-500 dark:text-slate-400 mb-2">Update location</h3>
                 <form onSubmit={updateLocation} className="grid grid-cols-2 gap-3 items-end">
                   <Field label="Latitude">
                     <Input type="number" step="any" min="-90" max="90" value={coords.latitude} onChange={(e) => setCoords({ ...coords, latitude: e.target.value })} required />

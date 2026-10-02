@@ -52,8 +52,8 @@ export default function Orders() {
     { key: "orderNumber", label: "Order #" },
     { key: "items", label: "Items", render: (o) => (
       <div>
-        <div className="font-medium text-slate-800">{o.items?.length || 0} item{(o.items?.length || 0) === 1 ? "" : "s"}</div>
-        <div className="text-xs text-slate-500">{itemsSummary(o.items)}</div>
+        <div className="font-medium text-slate-800 dark:text-slate-100">{o.items?.length || 0} item{(o.items?.length || 0) === 1 ? "" : "s"}</div>
+        <div className="text-xs text-slate-500 dark:text-slate-400">{itemsSummary(o.items)}</div>
       </div>
     ) },
     { key: "status", label: "Status", render: (o) => <Badge>{o.status}</Badge> },
@@ -146,14 +146,14 @@ function OrderDetailModal({ order, onClose, onChanged }) {
       <div className="flex flex-wrap items-center gap-2 mb-4">
         <Badge>{order.status}</Badge>
         <Badge>{order.paymentStatus}</Badge>
-        <span className="text-xs text-slate-500">{formatDate(order.orderDate)}</span>
+        <span className="text-xs text-slate-500 dark:text-slate-400">{formatDate(order.orderDate)}</span>
       </div>
 
-      <h3 className="font-semibold text-sm text-slate-700 mb-2">Items</h3>
+      <h3 className="font-semibold text-sm text-slate-700 dark:text-slate-200 mb-2">Items</h3>
       <div className="overflow-x-auto mb-4">
         <table className="w-full text-sm">
           <thead>
-            <tr className="border-b border-slate-200 text-slate-500">
+            <tr className="border-b border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400">
               <th className="text-left p-2 font-medium">Medicine</th>
               <th className="text-left p-2 font-medium">Batch</th>
               <th className="text-right p-2 font-medium">Qty</th>
@@ -163,9 +163,9 @@ function OrderDetailModal({ order, onClose, onChanged }) {
           </thead>
           <tbody>
             {(order.items || []).map((it, idx) => (
-              <tr key={idx} className="border-t border-slate-100">
+              <tr key={idx} className="border-t border-slate-100 dark:border-slate-800">
                 <td className="p-2">{it.medicineName}</td>
-                <td className="p-2 text-slate-500">{it.batchNumber || "—"}</td>
+                <td className="p-2 text-slate-500 dark:text-slate-400">{it.batchNumber || "—"}</td>
                 <td className="p-2 text-right">{it.quantity}</td>
                 <td className="p-2 text-right">{formatMoney(it.sellingPrice)}</td>
                 <td className="p-2 text-right">{formatMoney(it.total)}</td>
@@ -186,12 +186,12 @@ function OrderDetailModal({ order, onClose, onChanged }) {
 
       {(order.deliveryAddress || order.notes) && (
         <div className="mb-4 text-sm">
-          {order.deliveryAddress && <p className="mb-1"><span className="text-slate-500">Delivery address: </span>{order.deliveryAddress}</p>}
-          {order.notes && <p><span className="text-slate-500">Notes: </span>{order.notes}</p>}
+          {order.deliveryAddress && <p className="mb-1"><span className="text-slate-500 dark:text-slate-400">Delivery address: </span>{order.deliveryAddress}</p>}
+          {order.notes && <p><span className="text-slate-500 dark:text-slate-400">Notes: </span>{order.notes}</p>}
         </div>
       )}
 
-      <div className="flex flex-wrap gap-2 pt-3 border-t border-slate-200">
+      <div className="flex flex-wrap gap-2 pt-3 border-t border-slate-200 dark:border-slate-800">
         {order.status === "Pending" && (
           <Button size="sm" loading={busy} onClick={confirmOrder}>Confirm</Button>
         )}
@@ -209,7 +209,7 @@ function OrderDetailModal({ order, onClose, onChanged }) {
 function Row({ label, value, bold }) {
   return (
     <p className="flex justify-between py-0.5">
-      <span className="text-slate-500">{label}</span>
+      <span className="text-slate-500 dark:text-slate-400">{label}</span>
       <span className={bold ? "font-bold" : ""}>{value}</span>
     </p>
   );
@@ -320,21 +320,21 @@ function NewOrderModal({ onClose, onCreated }) {
           <Input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="e.g. Paracetamol" />
         </Field>
 
-        {searching && <p className="text-xs text-slate-400 mb-2">Searching…</p>}
+        {searching && <p className="text-xs text-slate-400 dark:text-slate-500 mb-2">Searching…</p>}
         {results.length > 0 && (
-          <div className="border border-slate-200 rounded-lg mb-3 divide-y divide-slate-100 max-h-48 overflow-y-auto">
+          <div className="border border-slate-200 dark:border-slate-800 rounded-lg mb-3 divide-y divide-slate-100 dark:divide-slate-800 max-h-48 overflow-y-auto">
             {results.map((inv) => (
               <button
                 type="button"
                 key={inv._id}
                 onClick={() => addItem(inv)}
-                className="w-full text-left px-3 py-2 text-sm hover:bg-slate-50 flex justify-between items-center"
+                className="w-full text-left px-3 py-2 text-sm hover:bg-slate-50 dark:hover:bg-slate-800 flex justify-between items-center"
               >
                 <span>
                   <span className="font-medium">{inv.medicineName}</span>
-                  <span className="text-slate-400"> · batch {inv.batchNumber} · avail {(inv.quantity || 0) - (inv.reservedQuantity || 0)}</span>
+                  <span className="text-slate-400 dark:text-slate-500"> · batch {inv.batchNumber} · avail {(inv.quantity || 0) - (inv.reservedQuantity || 0)}</span>
                 </span>
-                <span className="text-slate-500">{formatMoney(inv.mrp)}</span>
+                <span className="text-slate-500 dark:text-slate-400">{formatMoney(inv.mrp)}</span>
               </button>
             ))}
           </div>
@@ -345,10 +345,10 @@ function NewOrderModal({ onClose, onCreated }) {
         ) : (
           <div className="mb-4 space-y-2">
             {items.map((it) => (
-              <div key={it.inventoryId} className="flex flex-wrap items-center gap-2 bg-slate-50 rounded-lg p-2">
+              <div key={it.inventoryId} className="flex flex-wrap items-center gap-2 bg-slate-50 dark:bg-slate-800 rounded-lg p-2">
                 <div className="flex-1 min-w-[140px]">
                   <p className="text-sm font-medium">{it.medicineName}</p>
-                  <p className="text-xs text-slate-500">Batch {it.batchNumber} · avail {it.available}</p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">Batch {it.batchNumber} · avail {it.available}</p>
                 </div>
                 <Input
                   type="number" min="1" step="1" value={it.quantity}
@@ -375,13 +375,13 @@ function NewOrderModal({ onClose, onCreated }) {
         <Field label="Delivery address (optional)"><Input value={deliveryAddress} onChange={(e) => setDeliveryAddress(e.target.value)} /></Field>
         <Field label="Notes (optional)"><Textarea rows={2} value={notes} onChange={(e) => setNotes(e.target.value)} /></Field>
 
-        <div className="flex justify-between items-center pt-2 border-t border-slate-200 text-sm">
-          <span className="text-slate-500">Running subtotal</span>
+        <div className="flex justify-between items-center pt-2 border-t border-slate-200 dark:border-slate-800 text-sm">
+          <span className="text-slate-500 dark:text-slate-400">Running subtotal</span>
           <span className="font-semibold">{formatMoney(subTotal)}</span>
         </div>
         <div className="flex justify-between items-center text-sm">
-          <span className="text-slate-500">Estimated grand total</span>
-          <span className="font-bold text-indigo-700">{formatMoney(grandTotal)}</span>
+          <span className="text-slate-500 dark:text-slate-400">Estimated grand total</span>
+          <span className="font-bold text-indigo-700 dark:text-indigo-400">{formatMoney(grandTotal)}</span>
         </div>
       </form>
     </Modal>

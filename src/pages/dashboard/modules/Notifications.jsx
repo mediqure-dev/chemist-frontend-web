@@ -15,7 +15,7 @@ const columns = [
   { key: "type", label: "Type" },
   { key: "status", label: "Status", render: (row) => <Badge>{row.status}</Badge> },
   { key: "sentAt", label: "Sent", render: (row) => formatDateTime(row.sentAt || row.createdAt) },
-  { key: "error", label: "Error", render: (row) => row.error ? <span className="text-red-600 text-xs">{row.error}</span> : "—" },
+  { key: "error", label: "Error", render: (row) => row.error ? <span className="text-red-600 dark:text-red-400 text-xs">{row.error}</span> : "—" },
 ];
 
 export default function Notifications() {
@@ -88,7 +88,7 @@ export default function Notifications() {
         <div className="flex flex-wrap items-center justify-between gap-3 mb-1">
           <div>
             <h2 className="font-bold">Email service status</h2>
-            <p className="text-sm text-slate-500">Tests the SMTP connection this backend actually uses to send invoice emails.</p>
+            <p className="text-sm text-slate-500 dark:text-slate-400">Tests the SMTP connection this backend actually uses to send invoice emails.</p>
           </div>
           <Button size="sm" variant="secondary" loading={checkingEmail} onClick={checkEmailStatus}>Check connection</Button>
         </div>
@@ -138,22 +138,22 @@ export default function Notifications() {
             <div className="flex items-center gap-2 mb-4">
               <Badge>{selected.channel}</Badge>
               <Badge>{selected.status}</Badge>
-              <span className="text-sm text-slate-500">{selected.type}</span>
+              <span className="text-sm text-slate-500 dark:text-slate-400">{selected.type}</span>
             </div>
             <Banner message={detailBanner} />
-            <p className="text-sm mb-1"><span className="text-slate-500">Customer:</span> {selected.customerName || "—"}</p>
-            <p className="text-sm mb-1"><span className="text-slate-500">Phone:</span> {selected.customerPhone || "—"}</p>
-            <p className="text-sm mb-1"><span className="text-slate-500">Email:</span> {selected.customerEmail || "—"}</p>
-            <p className="text-sm mb-1"><span className="text-slate-500">Attempts:</span> {selected.attempts ?? "—"}</p>
-            <p className="text-sm mb-1"><span className="text-slate-500">Sent at:</span> {formatDateTime(selected.sentAt)}</p>
-            <p className="text-sm mb-1"><span className="text-slate-500">Created:</span> {formatDateTime(selected.createdAt)}</p>
+            <p className="text-sm mb-1"><span className="text-slate-500 dark:text-slate-400">Customer:</span> {selected.customerName || "—"}</p>
+            <p className="text-sm mb-1"><span className="text-slate-500 dark:text-slate-400">Phone:</span> {selected.customerPhone || "—"}</p>
+            <p className="text-sm mb-1"><span className="text-slate-500 dark:text-slate-400">Email:</span> {selected.customerEmail || "—"}</p>
+            <p className="text-sm mb-1"><span className="text-slate-500 dark:text-slate-400">Attempts:</span> {selected.attempts ?? "—"}</p>
+            <p className="text-sm mb-1"><span className="text-slate-500 dark:text-slate-400">Sent at:</span> {formatDateTime(selected.sentAt)}</p>
+            <p className="text-sm mb-1"><span className="text-slate-500 dark:text-slate-400">Created:</span> {formatDateTime(selected.createdAt)}</p>
             {selected.documentUrl && (
               <p className="text-sm mb-1">
-                <span className="text-slate-500">Document:</span>{" "}
-                <a href={selected.documentUrl} target="_blank" rel="noreferrer" className="text-indigo-600 underline">View document</a>
+                <span className="text-slate-500 dark:text-slate-400">Document:</span>{" "}
+                <a href={selected.documentUrl} target="_blank" rel="noreferrer" className="text-indigo-600 dark:text-indigo-400 underline">View document</a>
               </p>
             )}
-            {selected.error && <p className="text-sm mb-1 text-red-600"><span className="text-slate-500">Error:</span> {selected.error}</p>}
+            {selected.error && <p className="text-sm mb-1 text-red-600 dark:text-red-400"><span className="text-slate-500 dark:text-slate-400">Error:</span> {selected.error}</p>}
           </div>
         )}
       </Modal>

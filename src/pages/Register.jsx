@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { ThemeToggle } from "../components/ui/index.jsx";
 
 function Register() {
     const [currentStep, setCurrentStep] = useState(1);
@@ -259,11 +260,15 @@ function Register() {
     return (
         <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 flex items-center justify-center p-4">
 
+            <ThemeToggle className="fixed top-4 right-4" />
+
             <div className="w-full max-w-xl bg-white dark:bg-slate-900 shadow-2xl rounded-3xl p-8 ring-1 ring-slate-200 dark:ring-slate-800">
 
                 {/* Header */}
 
                 <div className="mb-6">
+
+                    <img src="/logo.png" alt="MediQure" className="h-9 w-auto mb-4" />
 
                     <h2 className="text-2xl font-bold text-slate-900 dark:text-white">
                         Chemist Registration

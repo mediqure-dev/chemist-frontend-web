@@ -84,10 +84,10 @@ export default function LocationPicker({ latitude, longitude, onChange }) {
 
   return (
     <div>
-      <div ref={containerRef} className="h-64 w-full rounded-lg overflow-hidden border border-slate-200" />
-      {mapError && <p className="text-xs text-red-600 mt-2">{mapError}</p>}
+      <div ref={containerRef} className="h-64 w-full rounded-lg overflow-hidden border border-slate-200 dark:border-slate-700" />
+      {mapError && <p className="text-xs text-red-600 dark:text-red-400 mt-2">{mapError}</p>}
       <div className="flex items-center justify-between mt-3 gap-3">
-        <p className="text-xs text-slate-500">
+        <p className="text-xs text-slate-500 dark:text-slate-400">
           {hasCoords ? `${latitude.toFixed(5)}, ${longitude.toFixed(5)}` : "Tap the map to set your shop's location"}
         </p>
         <Button type="button" variant="secondary" size="sm" loading={locating} onClick={useCurrentLocation}>

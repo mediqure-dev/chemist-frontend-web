@@ -95,7 +95,7 @@ export default function Invoices() {
     <div>
       <PageHeader
         title="Invoices"
-        subtitle={<>Invoices are generated from a POS sale — head to <Link className="text-indigo-600 font-medium" to="/dashboard/pos">POS Sales</Link> to create one. Use this page to look up an existing invoice.</>}
+        subtitle={<>Invoices are generated from a POS sale — head to <Link className="text-indigo-600 dark:text-indigo-400 font-medium" to="/dashboard/pos">POS Sales</Link> to create one. Use this page to look up an existing invoice.</>}
       />
 
       <div className="grid sm:grid-cols-2 gap-4 mb-4">
@@ -123,22 +123,22 @@ export default function Invoices() {
           <div className="flex items-center justify-between mb-4">
             <div>
               <h2 className="font-bold">{invoice.invoiceNumber}</h2>
-              <p className="text-xs text-slate-400">For sale {invoice.saleNumber}</p>
+              <p className="text-xs text-slate-400 dark:text-slate-500">For sale {invoice.saleNumber}</p>
             </div>
             <Badge>{invoice.paymentStatus}</Badge>
           </div>
 
           <div className="grid sm:grid-cols-2 gap-3 text-sm mb-4">
-            <div><span className="text-slate-500">Customer</span><div className="font-medium">{invoice.customerName}</div></div>
-            <div><span className="text-slate-500">Phone</span><div className="font-medium">{invoice.customerPhone || "—"}</div></div>
-            <div><span className="text-slate-500">Payment method</span><div><Badge tone="indigo">{invoice.paymentMethod}</Badge></div></div>
-            <div><span className="text-slate-500">Issued</span><div className="font-medium">{formatDateTime(invoice.issuedAt || invoice.createdAt)}</div></div>
+            <div><span className="text-slate-500 dark:text-slate-400">Customer</span><div className="font-medium">{invoice.customerName}</div></div>
+            <div><span className="text-slate-500 dark:text-slate-400">Phone</span><div className="font-medium">{invoice.customerPhone || "—"}</div></div>
+            <div><span className="text-slate-500 dark:text-slate-400">Payment method</span><div><Badge tone="indigo">{invoice.paymentMethod}</Badge></div></div>
+            <div><span className="text-slate-500 dark:text-slate-400">Issued</span><div className="font-medium">{formatDateTime(invoice.issuedAt || invoice.createdAt)}</div></div>
           </div>
 
           <div className="overflow-x-auto mb-4">
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b border-slate-200 text-slate-500">
+                <tr className="border-b border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400">
                   <th className="text-left p-1.5 font-medium">Medicine</th>
                   <th className="text-left p-1.5 font-medium">Batch</th>
                   <th className="text-left p-1.5 font-medium">Qty</th>
@@ -148,7 +148,7 @@ export default function Invoices() {
               </thead>
               <tbody>
                 {invoice.items?.map((item, idx) => (
-                  <tr key={idx} className="border-t border-slate-100">
+                  <tr key={idx} className="border-t border-slate-100 dark:border-slate-800">
                     <td className="p-1.5">{item.medicineName}</td>
                     <td className="p-1.5">{item.batchNumber}</td>
                     <td className="p-1.5">{item.quantity}</td>
@@ -160,11 +160,11 @@ export default function Invoices() {
             </table>
           </div>
 
-          <Card className="p-3 bg-slate-50 mb-4">
-            <div className="flex justify-between text-sm"><span className="text-slate-500">Subtotal</span><b>{formatMoney(invoice.subTotal)}</b></div>
-            <div className="flex justify-between text-sm mt-1"><span className="text-slate-500">Discount</span><b>-{formatMoney(invoice.discount)}</b></div>
-            <div className="flex justify-between text-sm mt-1"><span className="text-slate-500">Tax</span><b>{formatMoney(invoice.tax)}</b></div>
-            <div className="flex justify-between text-sm mt-1"><span className="text-slate-500">Delivery fee</span><b>{formatMoney(invoice.deliveryFee)}</b></div>
+          <Card className="p-3 bg-slate-50 dark:bg-slate-800 mb-4">
+            <div className="flex justify-between text-sm"><span className="text-slate-500 dark:text-slate-400">Subtotal</span><b>{formatMoney(invoice.subTotal)}</b></div>
+            <div className="flex justify-between text-sm mt-1"><span className="text-slate-500 dark:text-slate-400">Discount</span><b>-{formatMoney(invoice.discount)}</b></div>
+            <div className="flex justify-between text-sm mt-1"><span className="text-slate-500 dark:text-slate-400">Tax</span><b>{formatMoney(invoice.tax)}</b></div>
+            <div className="flex justify-between text-sm mt-1"><span className="text-slate-500 dark:text-slate-400">Delivery fee</span><b>{formatMoney(invoice.deliveryFee)}</b></div>
             <div className="flex justify-between text-sm mt-1 font-bold"><span>Grand total</span><span>{formatMoney(invoice.grandTotal)}</span></div>
           </Card>
 
@@ -175,7 +175,7 @@ export default function Invoices() {
             <Button size="sm" variant="secondary" loading={busy} onClick={uploadPdf}>Upload PDF</Button>
             <Button size="sm" variant="secondary" loading={busy} onClick={resendEmail}>Resend email</Button>
           </div>
-          {invoice.pdfUrl && <p className="text-xs text-slate-400 mt-2">Stored PDF URL: {invoice.pdfUrl}</p>}
+          {invoice.pdfUrl && <p className="text-xs text-slate-400 dark:text-slate-500 mt-2">Stored PDF URL: {invoice.pdfUrl}</p>}
         </Card>
       )}
     </div>

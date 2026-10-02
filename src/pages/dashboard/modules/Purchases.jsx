@@ -134,12 +134,12 @@ function MedicinePicker({ onSelect, placeholder = "Search medicine…" }) {
         placeholder={placeholder}
       />
       {open && results.length > 0 && (
-        <div className="absolute z-10 mt-1 w-full border border-slate-200 rounded-lg bg-white shadow-md max-h-40 overflow-y-auto">
+        <div className="absolute z-10 mt-1 w-full border border-slate-200 dark:border-slate-800 rounded-lg bg-white dark:bg-slate-900 shadow-md max-h-40 overflow-y-auto">
           {results.map((m) => (
             <button
               type="button"
               key={m._id}
-              className="block w-full text-left px-3 py-2 text-sm hover:bg-slate-50"
+              className="block w-full text-left px-3 py-2 text-sm hover:bg-slate-50 dark:hover:bg-slate-800"
               onClick={() => { onSelect(m); setQuery(""); setResults([]); setOpen(false); }}
             >
               {m.name}
@@ -163,9 +163,9 @@ function ItemRowEditor({ items, setItems }) {
       {items.map((row, idx) => (
         <Card key={idx} className="p-3">
           <div className="flex justify-between items-center mb-2">
-            <span className="text-xs font-semibold text-slate-500">Item {idx + 1}{row.medicineName ? ` — ${row.medicineName}` : ""}</span>
+            <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">Item {idx + 1}{row.medicineName ? ` — ${row.medicineName}` : ""}</span>
             {items.length > 1 && (
-              <button type="button" className="text-xs text-red-600 font-semibold" onClick={() => removeRow(idx)}>Remove</button>
+              <button type="button" className="text-xs text-red-600 dark:text-red-400 font-semibold" onClick={() => removeRow(idx)}>Remove</button>
             )}
           </div>
           {!row.masterMedicineId && (
@@ -179,7 +179,7 @@ function ItemRowEditor({ items, setItems }) {
               <Field label="MRP"><Input type="number" min="0" step="0.01" value={row.mrp} onChange={(e) => updateRow(idx, { mrp: e.target.value })} required /></Field>
               <Field label="Expiry date"><Input type="date" value={row.expiryDate} onChange={(e) => updateRow(idx, { expiryDate: e.target.value })} required /></Field>
               <div className="flex items-end">
-                <button type="button" className="text-xs text-indigo-600 font-semibold mb-3" onClick={() => updateRow(idx, { masterMedicineId: "", medicineName: "" })}>
+                <button type="button" className="text-xs text-indigo-600 dark:text-indigo-400 font-semibold mb-3" onClick={() => updateRow(idx, { masterMedicineId: "", medicineName: "" })}>
                   Change medicine
                 </button>
               </div>
@@ -332,19 +332,19 @@ function DetailModal({ purchaseId, initial, suppliers, onClose, onChanged, onErr
       {loading ? <Spinner /> : (
         <>
           <div className="grid sm:grid-cols-2 gap-2 text-sm mb-4">
-            <p><span className="text-slate-500">Supplier:</span> {supplierLabel}</p>
-            <p><span className="text-slate-500">Status:</span> <Badge>{purchase.status}</Badge></p>
-            <p><span className="text-slate-500">Invoice #:</span> {purchase.supplierInvoiceNumber || "—"}</p>
-            <p><span className="text-slate-500">Date:</span> {formatDate(purchase.purchaseDate)}</p>
+            <p><span className="text-slate-500 dark:text-slate-400">Supplier:</span> {supplierLabel}</p>
+            <p><span className="text-slate-500 dark:text-slate-400">Status:</span> <Badge>{purchase.status}</Badge></p>
+            <p><span className="text-slate-500 dark:text-slate-400">Invoice #:</span> {purchase.supplierInvoiceNumber || "—"}</p>
+            <p><span className="text-slate-500 dark:text-slate-400">Date:</span> {formatDate(purchase.purchaseDate)}</p>
           </div>
 
           <Table columns={itemColumns} rows={purchase.items} rowKey="batchNumber" />
 
           <div className="grid sm:grid-cols-3 gap-2 text-sm mt-3 mb-4">
-            <p><span className="text-slate-500">Subtotal:</span> {formatMoney(purchase.subTotal)}</p>
-            <p><span className="text-slate-500">Discount:</span> {formatMoney(purchase.discount)}</p>
-            <p><span className="text-slate-500">Tax:</span> {formatMoney(purchase.tax)}</p>
-            <p className="font-semibold"><span className="text-slate-500 font-normal">Grand total:</span> {formatMoney(purchase.grandTotal)}</p>
+            <p><span className="text-slate-500 dark:text-slate-400">Subtotal:</span> {formatMoney(purchase.subTotal)}</p>
+            <p><span className="text-slate-500 dark:text-slate-400">Discount:</span> {formatMoney(purchase.discount)}</p>
+            <p><span className="text-slate-500 dark:text-slate-400">Tax:</span> {formatMoney(purchase.tax)}</p>
+            <p className="font-semibold"><span className="text-slate-500 dark:text-slate-400 font-normal">Grand total:</span> {formatMoney(purchase.grandTotal)}</p>
           </div>
 
           {purchase.status !== "Received" && (
@@ -367,8 +367,8 @@ function DetailModal({ purchaseId, initial, suppliers, onClose, onChanged, onErr
                   const remaining = item.quantity - item.receivedQuantity;
                   return (
                     <div key={idx} className="flex items-center justify-between gap-3 text-sm">
-                      <span>{item.medicineName} <span className="text-slate-400">({item.batchNumber})</span></span>
-                      <span className="text-slate-500">Remaining: {remaining}</span>
+                      <span>{item.medicineName} <span className="text-slate-400 dark:text-slate-500">({item.batchNumber})</span></span>
+                      <span className="text-slate-500 dark:text-slate-400">Remaining: {remaining}</span>
                       <Input
                         type="number" min="0" max={remaining}
                         value={receiveQty[idx] || ""}

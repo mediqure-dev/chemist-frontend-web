@@ -83,8 +83,8 @@ export default function Medicines() {
 function Row({ label, value, block }) {
   return (
     <div className={block ? "" : "flex items-start justify-between gap-4"}>
-      <span className="text-slate-500 font-medium">{label}</span>
-      <span className={block ? "block mt-1 text-slate-700" : "text-right text-slate-900"}>{value ?? "—"}</span>
+      <span className="text-slate-500 dark:text-slate-400 font-medium">{label}</span>
+      <span className={block ? "block mt-1 text-slate-700 dark:text-slate-200" : "text-right text-slate-900 dark:text-white"}>{value ?? "—"}</span>
     </div>
   );
 }

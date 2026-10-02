@@ -7,11 +7,11 @@ const text = (value) => (value === null || value === undefined || value === "" ?
 const money = (value) => (typeof value === "number" ? `₹${value.toLocaleString("en-IN")}` : "—");
 
 const STAT_ICONS = {
-  inventory: { path: <><rect x="3.5" y="7.5" width="17" height="13" rx="1.5" /><path d="M3.5 7.5l2-4h13l2 4" /><path d="M9 11.5h6" /></>, tone: "text-indigo-600 bg-indigo-50" },
-  purchases: { path: <><path d="M6.5 7V5a2 2 0 012-2h7a2 2 0 012 2v2" /><rect x="4" y="7" width="16" height="13" rx="1.5" /></>, tone: "text-amber-600 bg-amber-50" },
-  orders: { path: <><rect x="5" y="4" width="14" height="17" rx="1.5" /><path d="M9 3.5V3a1 1 0 011-1h4a1 1 0 011 1v.5" /><path d="M9 11.5h6M9 15.5h6" /></>, tone: "text-blue-600 bg-blue-50" },
-  payments: { path: <><rect x="3" y="6" width="18" height="12" rx="1.75" /><path d="M3 10h18" /><path d="M7 14h3" /></>, tone: "text-emerald-600 bg-emerald-50" },
-  deliveries: { path: <><rect x="2" y="8" width="11" height="8" rx="1" /><path d="M13 11h4l3 3v2h-7z" /><circle cx="6.5" cy="18" r="1.5" /><circle cx="17" cy="18" r="1.5" /></>, tone: "text-rose-600 bg-rose-50" },
+  inventory: { path: <><rect x="3.5" y="7.5" width="17" height="13" rx="1.5" /><path d="M3.5 7.5l2-4h13l2 4" /><path d="M9 11.5h6" /></>, tone: "text-indigo-600 bg-indigo-50 dark:text-indigo-400 dark:bg-indigo-500/10" },
+  purchases: { path: <><path d="M6.5 7V5a2 2 0 012-2h7a2 2 0 012 2v2" /><rect x="4" y="7" width="16" height="13" rx="1.5" /></>, tone: "text-amber-600 bg-amber-50 dark:text-amber-400 dark:bg-amber-500/10" },
+  orders: { path: <><rect x="5" y="4" width="14" height="17" rx="1.5" /><path d="M9 3.5V3a1 1 0 011-1h4a1 1 0 011 1v.5" /><path d="M9 11.5h6M9 15.5h6" /></>, tone: "text-blue-600 bg-blue-50 dark:text-blue-400 dark:bg-blue-500/10" },
+  payments: { path: <><rect x="3" y="6" width="18" height="12" rx="1.75" /><path d="M3 10h18" /><path d="M7 14h3" /></>, tone: "text-emerald-600 bg-emerald-50 dark:text-emerald-400 dark:bg-emerald-500/10" },
+  deliveries: { path: <><rect x="2" y="8" width="11" height="8" rx="1" /><path d="M13 11h4l3 3v2h-7z" /><circle cx="6.5" cy="18" r="1.5" /><circle cx="17" cy="18" r="1.5" /></>, tone: "text-rose-600 bg-rose-50 dark:text-rose-400 dark:bg-rose-500/10" },
 };
 
 function StatIcon({ name }) {
@@ -80,26 +80,26 @@ export default function Overview() {
       </div>
       <div className="grid lg:grid-cols-2 gap-4">
         <Card className="p-5">
-          <h2 className="font-bold mb-1">Recent orders</h2>
-          <p className="text-xs text-slate-400 mb-3">Last 5 orders placed</p>
+          <h2 className="font-bold mb-1 text-slate-900 dark:text-white">Recent orders</h2>
+          <p className="text-xs text-slate-400 dark:text-slate-500 mb-3">Last 5 orders placed</p>
           {recentOrders?.length ? recentOrders.map((order) => (
-            <div key={order._id} className="flex justify-between items-center py-2.5 border-t border-slate-100 first:border-0 text-sm">
-              <span className="font-medium text-slate-700">{order.orderNumber}</span>
-              <span className="text-slate-500">{money(order.grandTotal)}</span>
+            <div key={order._id} className="flex justify-between items-center py-2.5 border-t border-slate-100 dark:border-slate-800 first:border-0 text-sm">
+              <span className="font-medium text-slate-700 dark:text-slate-200">{order.orderNumber}</span>
+              <span className="text-slate-500 dark:text-slate-400">{money(order.grandTotal)}</span>
               <Badge>{order.status}</Badge>
             </div>
-          )) : <p className="text-sm text-slate-400 text-center py-6">No orders yet.</p>}
+          )) : <p className="text-sm text-slate-400 dark:text-slate-500 text-center py-6">No orders yet.</p>}
         </Card>
         <Card className="p-5">
-          <h2 className="font-bold mb-1">Recent purchases</h2>
-          <p className="text-xs text-slate-400 mb-3">Last 5 purchases recorded</p>
+          <h2 className="font-bold mb-1 text-slate-900 dark:text-white">Recent purchases</h2>
+          <p className="text-xs text-slate-400 dark:text-slate-500 mb-3">Last 5 purchases recorded</p>
           {recentPurchases?.length ? recentPurchases.map((purchase) => (
-            <div key={purchase._id} className="flex justify-between items-center py-2.5 border-t border-slate-100 first:border-0 text-sm">
-              <span className="font-medium text-slate-700">{purchase.purchaseNumber}</span>
-              <span className="text-slate-500">{money(purchase.grandTotal)}</span>
+            <div key={purchase._id} className="flex justify-between items-center py-2.5 border-t border-slate-100 dark:border-slate-800 first:border-0 text-sm">
+              <span className="font-medium text-slate-700 dark:text-slate-200">{purchase.purchaseNumber}</span>
+              <span className="text-slate-500 dark:text-slate-400">{money(purchase.grandTotal)}</span>
               <Badge>{purchase.status}</Badge>
             </div>
-          )) : <p className="text-sm text-slate-400 text-center py-6">No purchases yet.</p>}
+          )) : <p className="text-sm text-slate-400 dark:text-slate-500 text-center py-6">No purchases yet.</p>}
         </Card>
       </div>
     </div>
@@ -112,16 +112,16 @@ function StatCard({ icon, title, headline, headlineLabel, rows }) {
       <div className="flex items-center gap-3 mb-3">
         <StatIcon name={icon} />
         <div className="min-w-0">
-          <h2 className="font-semibold text-sm text-slate-500 truncate">{title}</h2>
-          <p className="text-xl font-bold text-slate-900 leading-tight">{text(headline)}</p>
+          <h2 className="font-semibold text-sm text-slate-500 dark:text-slate-400 truncate">{title}</h2>
+          <p className="text-xl font-bold text-slate-900 dark:text-white leading-tight">{text(headline)}</p>
         </div>
       </div>
-      {headlineLabel && <p className="text-[11px] text-slate-400 -mt-2 mb-2">{headlineLabel}</p>}
-      <div className="space-y-1 pt-2 border-t border-slate-100">
+      {headlineLabel && <p className="text-[11px] text-slate-400 dark:text-slate-500 -mt-2 mb-2">{headlineLabel}</p>}
+      <div className="space-y-1 pt-2 border-t border-slate-100 dark:border-slate-800">
         {rows.map(([label, value]) => (
           <p key={label} className="flex justify-between text-sm">
-            <span className="text-slate-500">{label}</span>
-            <b className="text-slate-700">{text(value)}</b>
+            <span className="text-slate-500 dark:text-slate-400">{label}</span>
+            <b className="text-slate-700 dark:text-slate-200">{text(value)}</b>
           </p>
         ))}
       </div>

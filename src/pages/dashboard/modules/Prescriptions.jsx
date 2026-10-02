@@ -190,19 +190,19 @@ export default function Prescriptions() {
           <div>
             <Banner message={detailBanner} />
             <div className="flex items-center gap-2 mb-4">
-              <span className="text-sm text-slate-500">Status:</span>
+              <span className="text-sm text-slate-500 dark:text-slate-400">Status:</span>
               <Badge>{selected.status}</Badge>
             </div>
 
             <Field label="Prescription file">
-              <a href={selected.fileUrl} target="_blank" rel="noreferrer" className="text-indigo-600 text-sm break-all hover:underline">
+              <a href={selected.fileUrl} target="_blank" rel="noreferrer" className="text-indigo-600 dark:text-indigo-400 text-sm break-all hover:underline">
                 {selected.fileUrl}
               </a>
               {isImageUrl(selected.fileUrl) && !imgFailed && (
                 <img
                   src={selected.fileUrl}
                   alt="Prescription"
-                  className="mt-2 max-h-48 rounded-lg border border-slate-200"
+                  className="mt-2 max-h-48 rounded-lg border border-slate-200 dark:border-slate-800"
                   onError={() => setImgFailed(true)}
                 />
               )}
@@ -210,13 +210,13 @@ export default function Prescriptions() {
 
             {selected.notes && (
               <Field label="Notes">
-                <p className="text-sm text-slate-700">{selected.notes}</p>
+                <p className="text-sm text-slate-700 dark:text-slate-200">{selected.notes}</p>
               </Field>
             )}
 
             {selected.status === "Rejected" && selected.rejectionReason && (
               <Field label="Rejection reason">
-                <p className="text-sm text-red-600">{selected.rejectionReason}</p>
+                <p className="text-sm text-red-600 dark:text-red-400">{selected.rejectionReason}</p>
               </Field>
             )}
 
@@ -227,20 +227,20 @@ export default function Prescriptions() {
             )}
 
             {selected.status === "Approved" && !selected.quotationId && (
-              <div className="mt-4 p-3 rounded-lg bg-indigo-50 text-sm text-indigo-800">
+              <div className="mt-4 p-3 rounded-lg bg-indigo-50 dark:bg-indigo-500/10 text-sm text-indigo-800 dark:text-indigo-300">
                 Approved — create a quotation for this prescription from the Quotations page using prescription ID:{" "}
-                <span className="font-mono text-xs bg-white px-1.5 py-0.5 rounded border border-indigo-200 select-all">{selected._id}</span>
+                <span className="font-mono text-xs bg-white dark:bg-slate-900 px-1.5 py-0.5 rounded border border-indigo-200 dark:border-indigo-800 select-all">{selected._id}</span>
               </div>
             )}
 
             {selected.quotationId && (
-              <div className="mt-4 p-3 rounded-lg bg-slate-50 text-sm text-slate-600">
+              <div className="mt-4 p-3 rounded-lg bg-slate-50 dark:bg-slate-800 text-sm text-slate-600 dark:text-slate-300">
                 Linked quotation ID: <span className="font-mono text-xs">{selected.quotationId}</span>
               </div>
             )}
 
             {selected.orderId && (
-              <div className="mt-2 p-3 rounded-lg bg-slate-50 text-sm text-slate-600">
+              <div className="mt-2 p-3 rounded-lg bg-slate-50 dark:bg-slate-800 text-sm text-slate-600 dark:text-slate-300">
                 Linked order ID: <span className="font-mono text-xs">{selected.orderId}</span>
               </div>
             )}
